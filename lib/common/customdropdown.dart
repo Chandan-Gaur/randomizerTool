@@ -60,14 +60,13 @@ class DropDownWidgetCoustom extends StatelessWidget {
                   ),
                 ))
             .toList(),
-        value:
-            (selectedValue.value == null) ? "Select Item" : selectedValue.value,
+        value: selectedValue.value,
         onChanged: (val) {
           selectedValue.value = val!;
         },
         buttonStyleData: ButtonStyleData(
           height: 50,
-          width: wsize / 4,
+          width: wsize / 3,
           padding: const EdgeInsets.only(left: 14, right: 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
@@ -88,12 +87,12 @@ class DropDownWidgetCoustom extends StatelessWidget {
         ),
         dropdownStyleData: DropdownStyleData(
           maxHeight: 200,
-          width: 200,
+          width: wsize / 4,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             color: Theme.of(context).canvasColor,
           ),
-          offset: const Offset(-20, 0),
+          offset: const Offset(-3, 0),
           scrollbarTheme: ScrollbarThemeData(
             radius: const Radius.circular(40),
             thickness: MaterialStateProperty.all(6),

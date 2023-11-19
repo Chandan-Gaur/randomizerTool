@@ -1,21 +1,76 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:month_year_picker/month_year_picker.dart';
+import 'package:randomizer_tool/GetAllData/uploadexcel.dart';
+
+import 'package:randomizer_tool/Home/upperprofilePortion.dart';
 import 'package:randomizer_tool/common/customdropdown.dart';
 
 // ignore: must_be_immutable
 class HomePage extends HookConsumerWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+  DateTime? _selected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('MMMM - y').format(now);
+    final formattedDate1 = useState<String>(formattedDate);
     final selectedValue = useState("Gold");
     var wSize = MediaQuery.of(context).size.width;
     var hSize = MediaQuery.of(context).size.height;
     print("width size->>>>$wSize");
+    var flexible = Flexible(
+      child: Row(
+        children: [
+          Flexible(
+            child: ElevatedButton(
+              onPressed: () {
+                _onPressed(
+                  context: context,
+                  formattedDate1: formattedDate1,
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                side: BorderSide(
+                  color: Colors.white,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: AutoSizeText(
+                  formattedDate1.value,
+                  maxLines: 1,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 11),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Flexible(
+            child: DropDownWidgetCoustom(
+              selectedValue: selectedValue,
+            ),
+          ),
+        ],
+      ),
+    );
     return Scaffold(
       backgroundColor: Theme.of(context).dividerColor.withAlpha(10),
       appBar: AppBar(
@@ -27,37 +82,7 @@ class HomePage extends HookConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(
-            child: Padding(
-              padding: EdgeInsets.only(left: wSize / 1.53),
-              child: Card(
-                shadowColor: Theme.of(context).colorScheme.secondary,
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: ListTile(
-                  leading: Icon(Icons.mail),
-                  title: AutoSizeText(
-                    'Chandan Gaurjee',
-                    maxLines: 1,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  subtitle: AutoSizeText(
-                    'chandangaurjecrc@gmail.com',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onTap: () {},
-                  trailing: CircleAvatar(
-                    backgroundImage:
-                        NetworkImage('https://placehold.co/600x400.png'),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          homePageUpperPortion(wSize: wSize),
           Flexible(
             flex: 9,
             child: Row(
@@ -73,22 +98,52 @@ class HomePage extends HookConsumerWidget {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       elevation: 5,
-                      margin: EdgeInsets.only(right: 5, left: 50),
-                      child: Image.network(
-                        'https://placehold.co/600x400.png',
+                      margin: EdgeInsets.only(right: 25, left: 10),
+                      child: Container(
+                        color: Colors.purple,
                         width: wSize / 1.62,
                         height: hSize / 3.5,
-                        fit: BoxFit.fill,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(18.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      UploadExcelModel(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      foregroundColor: Colors.amber,
+                                      backgroundColor:
+                                          Theme.of(context).canvasColor,
+                                      elevation: 10,
+                                      shadowColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                    child: Text("Generate"),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
                 Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: Card(
                           color: Theme.of(context).dividerColor,
                           child: Padding(
@@ -96,26 +151,41 @@ class HomePage extends HookConsumerWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: AutoSizeText(
-                                    'Recent Winniers',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
+                                RecentWinnerWidget(),
+                                flexible,
+                                SizedBox(
+                                  height: 20,
                                 ),
                                 Flexible(
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        child: DropDownWidgetCoustom(
-                                          selectedValue: selectedValue,
+                                  flex: 9,
+                                  child: ListView.builder(
+                                    itemBuilder: (context, index) {
+                                      return Card(
+                                        shadowColor: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        elevation: 3,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
                                         ),
-                                      ),
-                                    ],
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        child: ListTile(
+                                          leading: Icon(MdiIcons.trophy),
+                                          title: const AutoSizeText(
+                                            'Chandan Gaurjee',
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          onTap: () {},
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
@@ -130,6 +200,47 @@ class HomePage extends HookConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+// build method ends
+
+  Future<void> _onPressed({
+    required BuildContext context,
+    required ValueNotifier<String> formattedDate1,
+    String? locale,
+  }) async {
+    final localeObj = locale != null ? Locale(locale) : null;
+    final selected = await showMonthYearPicker(
+      context: context,
+      initialDate: _selected ?? DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime(2030),
+      locale: localeObj,
+    );
+    if (selected != null) {
+      _selected = selected;
+      formattedDate1.value = DateFormat('MMMM - y').format(selected);
+    }
+  }
+
+// class ends
+}
+
+class RecentWinnerWidget extends StatelessWidget {
+  const RecentWinnerWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: AutoSizeText(
+        'Recent Winniers',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,13 +8,14 @@ import 'package:randomizer_tool/Settings/settfings.dart';
 import 'package:randomizer_tool/theme.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 void main() async {
   await GetStorage.init();
   sqfliteFfiInit();
   WidgetsFlutterBinding.ensureInitialized();
   await DesktopWindow.setFullScreen(true);
-  await DesktopWindow.setMinWindowSize(const Size(800, 700));
+  await DesktopWindow.setMinWindowSize(const Size(1000, 700));
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -94,6 +93,11 @@ class MyApp extends HookConsumerWidget {
           ],
         ),
       ),
+      localizationsDelegates: const [
+        // GlobalWidgetsLocalizations.delegate,
+        // GlobalMaterialLocalizations.delegate,
+        MonthYearPickerLocalizations.delegate,
+      ],
     );
   }
 }
