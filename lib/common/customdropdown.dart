@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_literals_to_create_immutables
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -7,17 +7,14 @@ import 'package:flutter/material.dart';
 class DropDownWidgetCoustom extends StatelessWidget {
   DropDownWidgetCoustom({
     super.key,
-    // ignore: non_constant_identifier_names
     required this.selectedValue,
   });
 
-  // ignore: non_constant_identifier_names
   final ValueNotifier<String> selectedValue;
-  final List<String> items_list = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
+  final List<String> items = [
+    'Gold',
+    'Silver',
+    'Smart Watch',
   ];
   @override
   Widget build(BuildContext context) {
@@ -25,38 +22,87 @@ class DropDownWidgetCoustom extends StatelessWidget {
     var hsize = MediaQuery.of(context).size.height;
     return DropdownButtonHideUnderline(
       child: DropdownButton2<String>(
-        hint: Text(
-          'Select Item',
-          style: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).hintColor,
-          ),
+        isExpanded: true,
+        hint: Row(
+          children: [
+            Icon(
+              Icons.list,
+              size: 16,
+              color: Colors.yellow,
+            ),
+            SizedBox(
+              width: 4,
+            ),
+            Expanded(
+              child: Text(
+                'Select Item',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.yellow,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
-        items: items_list
+        items: items
             .map((String item) => DropdownMenuItem<String>(
                   value: item,
-                  child: AutoSizeText(
+                  child: Text(
                     item,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                    maxLines: 1,
-                    minFontSize: 8,
-                    wrapWords: false,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ))
             .toList(),
-        value: selectedValue.value,
-        onChanged: (String? val) {
+        value:
+            (selectedValue.value == null) ? "Select Item" : selectedValue.value,
+        onChanged: (val) {
           selectedValue.value = val!;
         },
         buttonStyleData: ButtonStyleData(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          height: hsize / 19,
-          width: wsize / 8,
+          height: 50,
+          width: wsize / 4,
+          padding: const EdgeInsets.only(left: 14, right: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: Colors.black26,
+            ),
+            color: Theme.of(context).canvasColor,
+          ),
+          elevation: 2,
         ),
-        menuItemStyleData: MenuItemStyleData(
+        iconStyleData: const IconStyleData(
+          icon: Icon(
+            Icons.arrow_forward_ios_outlined,
+          ),
+          iconSize: 14,
+          iconEnabledColor: Colors.yellow,
+          iconDisabledColor: Colors.grey,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: 200,
+          width: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: Theme.of(context).canvasColor,
+          ),
+          offset: const Offset(-20, 0),
+          scrollbarTheme: ScrollbarThemeData(
+            radius: const Radius.circular(40),
+            thickness: MaterialStateProperty.all(6),
+            thumbVisibility: MaterialStateProperty.all(true),
+          ),
+        ),
+        menuItemStyleData: const MenuItemStyleData(
           height: 40,
+          padding: EdgeInsets.only(left: 14, right: 14),
         ),
       ),
     );

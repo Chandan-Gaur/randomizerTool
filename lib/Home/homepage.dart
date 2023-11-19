@@ -12,100 +12,111 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedValue = useState<String>("Item1");
+    final selectedValue = useState("Gold");
     var wSize = MediaQuery.of(context).size.width;
     var hSize = MediaQuery.of(context).size.height;
     print("width size->>>>$wSize");
     return Scaffold(
-        backgroundColor: Theme.of(context).dividerColor.withAlpha(10),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: const AutoSizeText('Dashboard'),
-          elevation: 0,
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // DropDownWidgetCoustom(
-            //   items_list: items_list,
-            //   selectedValue: selectedValue,
-            // ),
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.only(left: wSize / 1.55),
-                child: Card(
-                  shadowColor: Theme.of(context).colorScheme.secondary,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: ListTile(
-                    leading: Icon(Icons.mail),
-                    title: AutoSizeText(
-                      'Chandan Gaurjee',
-                      maxLines: 1,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: AutoSizeText(
-                      'chandangaurjecrc@gmail.com',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    onTap: () {},
-                    trailing: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://placehold.co/600x400.png'),
-                    ),
+      backgroundColor: Theme.of(context).dividerColor.withAlpha(10),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: AutoSizeText('Dashboard'),
+        elevation: 0,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            child: Padding(
+              padding: EdgeInsets.only(left: wSize / 1.53),
+              child: Card(
+                shadowColor: Theme.of(context).colorScheme.secondary,
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: ListTile(
+                  leading: Icon(Icons.mail),
+                  title: AutoSizeText(
+                    'Chandan Gaurjee',
+                    maxLines: 1,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: AutoSizeText(
+                    'chandangaurjecrc@gmail.com',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  onTap: () {},
+                  trailing: CircleAvatar(
+                    backgroundImage:
+                        NetworkImage('https://placehold.co/600x400.png'),
                   ),
                 ),
               ),
             ),
-            Flexible(
-              flex: 7,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        elevation: 5,
-                        margin: const EdgeInsets.only(right: 5, left: 50),
-                        child: Image.network(
-                          'https://placehold.co/600x400.png',
-                          width: wSize / 1.62,
-                          height: hSize / 3.5,
-                          fit: BoxFit.fill,
-                        ),
+          ),
+          Flexible(
+            flex: 9,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                    ],
-                  ),
-                  Column(
+                      elevation: 5,
+                      margin: EdgeInsets.only(right: 5, left: 50),
+                      child: Image.network(
+                        'https://placehold.co/600x400.png',
+                        width: wSize / 1.62,
+                        height: hSize / 3.5,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ],
+                ),
+                Flexible(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Card(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).dividerColor,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(18.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                AutoSizeText(
-                                  'Recent Winniers',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: AutoSizeText(
+                                    'Recent Winniers',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                                DropDownWidgetCoustom(
-                                  selectedValue: selectedValue,
+                                Flexible(
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: DropDownWidgetCoustom(
+                                          selectedValue: selectedValue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -113,11 +124,13 @@ class HomePage extends HookConsumerWidget {
                         ),
                       ),
                     ],
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
